@@ -47,13 +47,21 @@ module.exports = {
     ],
     module: {
         rules: [
-            // BABEL
             {
                 test: /\.js$/,
                 loader: 'babel-loader',
                 exclude: /(node_modules)/,
                 options: {
                     compact: true
+                }
+            },
+            {
+                test: /\.(glsl|vs|fs)$/,
+                loader: 'shader-loader',
+                options: {
+                    glsl: {
+                        chunkPath: resolve("/glsl/chunks")
+                    }
                 }
             }
         ]
