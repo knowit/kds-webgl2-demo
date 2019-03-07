@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=dev webpack-dev-server --progress --mode development --config webpack.config.js",
+    "start": "cross-env NODE_ENV=dev webpack-dev-server --progress --mode development --config webpack.config.js",
     "build": "webpack -p --progress --mode production --config webpack.config.build.js"
   },
   "author": "",

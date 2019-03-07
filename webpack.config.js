@@ -17,8 +17,6 @@ module.exports = {
     devtool: 'eval',
 
     output: {
-        pathinfo: true,
-        publicPath: '/',
         filename: '[name].js'
     },
 
@@ -50,17 +48,14 @@ module.exports = {
             {
                 test: /\.js$/,
                 loader: 'babel-loader',
-                exclude: /(node_modules)/,
-                options: {
-                    compact: true
-                }
+                exclude: /(node_modules)/
             },
             {
                 test: /\.(glsl|vs|fs)$/,
                 loader: 'shader-loader',
                 options: {
                     glsl: {
-                        chunkPath: resolve("/glsl/chunks")
+                        chunkPath: path.resolve("/glsl/chunks")
                     }
                 }
             }

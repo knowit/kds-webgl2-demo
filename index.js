@@ -1,5 +1,5 @@
 
-import { Context } from './lib/context'
+import { context } from './lib/context'
 
 const canvas = document.querySelector("#canvasElement")
 navigator.mediaDevices.getUserMedia({video: true})
