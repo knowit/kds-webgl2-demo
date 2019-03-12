@@ -49,15 +49,11 @@ module.exports = {
                 test: /\.js$/,
                 loader: 'babel-loader',
                 exclude: /(node_modules)/
-            },
+            }, 
             {
-                test: /\.(glsl|vs|fs)$/,
-                loader: 'shader-loader',
-                options: {
-                    glsl: {
-                        chunkPath: path.resolve("/glsl/chunks")
-                    }
-                }
+                test: /\.(glsl|vs|fs|vert|frag)$/,
+                exclude: /node_modules/,
+                loader: 'raw-loader'
             }
         ]
     }
