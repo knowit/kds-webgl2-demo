@@ -18,7 +18,6 @@
     "babel-loader": "^8.0.5",
     "clean-webpack-plugin": "^1.0.1",
     "cross-env": "^5.2.0",
-    "glslify-loader": "^2.0.0",
     "html-webpack-plugin": "^3.2.0",
     "raw-loader": "^1.0.0",
     "webpack": "^4.29.3",
