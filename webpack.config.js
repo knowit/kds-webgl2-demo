@@ -25,7 +25,9 @@ module.exports = {
     },
     
     entry: {
-        bundle: path.join(dirApp, 'index')
+        main: path.join(dirApp, 'index'),
+        eigenface: path.join(dirApp, 'eigenface', 'index'),
+        mandelbrot: path.join(dirApp, 'mandelbrot', 'index')
     },
     resolve: {
         modules: [
@@ -39,7 +41,23 @@ module.exports = {
         }),
 
         new HtmlWebpackPlugin({
+            filename: 'index.html',
             template: path.join(__dirname, 'index.ejs'),
+            chunks: ['main'],
+            title: appHtmlTitle
+        }),
+
+        new HtmlWebpackPlugin({
+            filename: 'eigenface.html',
+            template: path.join(__dirname, 'eigenface', 'index.ejs'),
+            chunks: ['eigenface'],
+            title: appHtmlTitle
+        }),
+
+        new HtmlWebpackPlugin({
+            filename: 'mandelbrot.html',
+            template: path.join(__dirname, 'mandelbrot', 'index.ejs'),
+            chunks: ['mandelbrot'],
             title: appHtmlTitle
         })
     ],
