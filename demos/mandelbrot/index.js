@@ -8,7 +8,9 @@ const mandelbrotKernel = computeKernel(ctx, {
     vertexShader: require('./glsl/mandelbrot.vert.glsl'),
     fragmentShader: require('./glsl/mandelbrot.frag.glsl')
 })
-const renderer = framebufferRenderer(ctx)
+const renderer = framebufferRenderer(ctx, {
+    fragmentShader: require('./glsl/visualize.frag.glsl')
+})
 
 let pos = [0.0,0.0]
 let zoom = 1.0
@@ -17,8 +19,8 @@ let drag = false
 
 canvas.addEventListener('mousemove', (e) => {
     if (drag) {
-        pos[0] -= (e.movementX/canvas.width)*zoom
-        pos[1] += (e.movementY/canvas.height)*zoom
+        pos[0] += (e.movementX/canvas.width)*zoom
+        pos[1] -= (e.movementY/canvas.height)*zoom
     }
 })
 
@@ -45,7 +47,9 @@ const renderFrame = ctx.getRenderLoop(ctx, (dt) => {
         zoom: new Float32Array([zoom])
     })
 
-    renderer.render(dt, mandelbrotKernel.result)
+    renderer.render(dt, mandelbrotKernel.result, {
+        zoom: new Float32Array([zoom])
+    })
 
     window.requestAnimationFrame(renderFrame)
 })
