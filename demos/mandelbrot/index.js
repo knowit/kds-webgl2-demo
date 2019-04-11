@@ -1,10 +1,14 @@
 
-import { context, computeKernel } from '../lib/context'
+import { context, computeKernel, framebufferRenderer } from '../../lib/context'
 
 const canvas = document.querySelector('#canvasElement')
 
 const ctx = context(canvas)
-const renderer = computeKernel(ctx, 'mandelbrot')
+const mandelbrotKernel = computeKernel(ctx, {
+    vertexShader: require('./glsl/mandelbrot.vert.glsl'),
+    fragmentShader: require('./glsl/mandelbrot.frag.glsl')
+})
+const renderer = framebufferRenderer(ctx)
 
 let pos = [0.0,0.0]
 let zoom = 1.0
@@ -36,10 +40,13 @@ canvas.addEventListener('mouseup', (e) => {
 })
 
 const renderFrame = ctx.getRenderLoop(ctx, (dt) => {
-    renderer.render(dt, {
+    mandelbrotKernel.execute(dt, {
         pos: new Float32Array(pos),
         zoom: new Float32Array([zoom])
     })
+
+    renderer.render(dt, mandelbrotKernel.result)
+
     window.requestAnimationFrame(renderFrame)
 })
 window.requestAnimationFrame(renderFrame)

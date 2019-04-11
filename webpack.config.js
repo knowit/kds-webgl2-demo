@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs')
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -8,7 +9,21 @@ const IS_DEV = (process.env.NODE_ENV === 'dev');
 const dirNode = 'node_modules';
 const dirApp = path.join(__dirname, '.');
 
-const appHtmlTitle = 'Demo WebGL';
+const appHtmlTitle = 'Demo GPGPU WebGL';
+
+const demos = fs.readdirSync(path.join(dirApp, 'demos')).filter(f => fs.statSync(path.join(dirApp, 'demos', f)).isDirectory())
+const demosEntries = {}
+demos.forEach(demo => {
+    demosEntries[demo] = path.join(dirApp, 'demos', demo, 'index')
+})
+const demoHtmlPackers = demos.map(demo => {
+    return new HtmlWebpackPlugin({
+        filename: `${demo}.html`,
+        template: path.join(__dirname, 'demos', demo, 'index.ejs'),
+        chunks: [demo],
+        title: appHtmlTitle
+    })
+})
 
 /**
  * Webpack Configuration
@@ -26,8 +41,7 @@ module.exports = {
     
     entry: {
         main: path.join(dirApp, 'index'),
-        eigenface: path.join(dirApp, 'eigenface', 'index'),
-        mandelbrot: path.join(dirApp, 'mandelbrot', 'index')
+        ...demosEntries
     },
     resolve: {
         modules: [
@@ -47,19 +61,7 @@ module.exports = {
             title: appHtmlTitle
         }),
 
-        new HtmlWebpackPlugin({
-            filename: 'eigenface.html',
-            template: path.join(__dirname, 'eigenface', 'index.ejs'),
-            chunks: ['eigenface'],
-            title: appHtmlTitle
-        }),
-
-        new HtmlWebpackPlugin({
-            filename: 'mandelbrot.html',
-            template: path.join(__dirname, 'mandelbrot', 'index.ejs'),
-            chunks: ['mandelbrot'],
-            title: appHtmlTitle
-        })
+        ...demoHtmlPackers
     ],
     module: {
         rules: [
