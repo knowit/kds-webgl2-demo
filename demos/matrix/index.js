@@ -16,9 +16,13 @@ const matrix2 = texture(ctx, 1024, 1024, new Float32Array(
     Array.from({length: 1024*1024}, () => 4.0)
 ))
 
-matrixKernel.execute(0.0, {
-    matrix1: textureUniform(0), 
-    matrix2: textureUniform(1)
-}, [matrix1, matrix2])
+document.querySelector('#computeButton').addEventListener('click', () => {
+    const then = performance.now()
+    matrixKernel.execute(0.0, {
+        matrix1: textureUniform(0), 
+        matrix2: textureUniform(1)
+    }, [matrix1, matrix2])
 
-console.log(matrixKernel.result.read())
+    console.log(matrixKernel.result.read())
+    console.log('compute time', performance.now() - then, 'ms')
+})
